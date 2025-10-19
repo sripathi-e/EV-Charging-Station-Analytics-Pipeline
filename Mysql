@@ -1,0 +1,27 @@
+-- Step 1: Create Database
+CREATE DATABASE IF NOT EXISTS ev_project;
+USE ev_project;
+
+-- Step 2: Create Table
+CREATE TABLE IF NOT EXISTS ev_charging_sessions (
+    session_id INT PRIMARY KEY,
+    station_id VARCHAR(10),
+    city VARCHAR(50),
+    start_time DATETIME,
+    end_time DATETIME,
+    kWh_consumed DOUBLE,
+    cost DOUBLE,
+    charger_type VARCHAR(20)
+);
+
+-- Step 3: Load CSV into MySQL
+-- Make sure the CSV is inside secure_file_priv path (check with: SHOW VARIABLES LIKE 'secure_file_priv';)
+LOAD DATA INFILE '/var/lib/mysql-files/ev_charging_sessions.csv'
+INTO TABLE ev_charging_sessions
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(session_id, station_id, city, start_time, end_time, kWh_consumed, cost, charger_type);
+
+-- Step 4: Verify Data
+SELECT * FROM ev_charging_sessions LIMIT 10;
