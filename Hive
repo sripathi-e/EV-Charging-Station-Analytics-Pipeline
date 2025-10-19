@@ -1,0 +1,39 @@
+-- Create Hive Database
+CREATE DATABASE IF NOT EXISTS ev_project;
+
+-- Raw Table
+CREATE EXTERNAL TABLE IF NOT EXISTS ev_project.ev_charging_sessions_raw (
+    session_id INT,
+    station_id STRING,
+    city STRING,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    kWh_consumed DOUBLE,
+    cost DOUBLE,
+    charger_type STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/ev_project/raw/ev_charging_sessions';
+
+-- Daily City-Level Summary
+CREATE TABLE IF NOT EXISTS ev_project.ev_city_daily_summary AS
+SELECT 
+    city,
+    DATE(start_time) AS date,
+    COUNT(session_id) AS total_sessions,
+    SUM(kWh_consumed) AS total_kWh,
+    SUM(cost) AS total_revenue,
+    ROUND(AVG(kWh_consumed),2) AS avg_kWh_per_session
+FROM ev_project.ev_charging_sessions_raw
+GROUP BY city, DATE(start_time);
+
+-- Charger Utilization by Hour
+CREATE TABLE IF NOT EXISTS ev_project.ev_charger_utilization AS
+SELECT 
+    charger_type,
+    HOUR(start_time) AS hour,
+    COUNT(session_id) AS session_count,
+    SUM(kWh_consumed) AS total_kWh
+FROM ev_project.ev_charging_sessions_raw
+GROUP BY charger_type, HOUR(start_time);
