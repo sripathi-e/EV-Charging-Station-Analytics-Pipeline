@@ -27,3 +27,18 @@ ev_charging_pipeline_project/
 - **Language:** Python
 
 ---
+
+## 📊 Dataset
+Contains **1.2 million** synthetic EV charging sessions:
+| Column | Description |
+|--------|-------------|
+| session_id | Unique session ID |
+| station_id | EV charging station ID |
+| city | City name |
+| start_time | Session start time |
+| end_time | Session end time |
+| kWh_consumed | Energy consumed |
+| cost | Total session cost |
+| charger_type | Fast / Slow / UltraFast |
+
+---
