@@ -16,3 +16,14 @@ ev_charging_pipeline_project/
 ├── mysql/
 │ └── # MySQL Setup & Data Load
 ├── README.md # Project instructions
+
+---
+
+
+## 🧰 Tech Stack
+- **Database:** MySQL  
+- **Big Data Tools:** Hadoop (HDFS), Hive, Sqoop  
+- **Workflow Orchestration:** Apache Airflow  
+- **Language:** Python
+
+---
