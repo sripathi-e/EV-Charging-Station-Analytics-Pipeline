@@ -6,8 +6,8 @@ The pipeline automates ingestion, processing, and analysis of charging data usin
 
 ---
 
-<img width="1366" height="768" alt="Screenshot 2025-09-20 191948" src="https://github.com/user-attachments/assets/e7acbaf4-5173-47c0-a37c-10b005dcd499" />
-<img width="1366" height="768" alt="Screenshot 2025-09-20 193421" src="https://github.com/user-attachments/assets/9296798e-97ae-47c8-9575-70d17510622f" />
+<img width="1307" height="593" alt="Screenshot 2025-09-20 191948" src="https://github.com/user-attachments/assets/29f535d8-fc38-4f5d-b34b-d9c821efe28a" />
+<img width="1309" height="588" alt="Screenshot 2025-09-20 193421" src="https://github.com/user-attachments/assets/f7550475-bbdf-462a-8d08-f36f3f32d5a5" />
 
 
 ---
