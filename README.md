@@ -5,6 +5,8 @@ This project builds an **end-to-end Big Data Pipeline** for analyzing electric v
 The pipeline automates ingestion, processing, and analysis of charging data using **MySQL, Sqoop, HDFS, Hive, and Airflow**.
 
 ---
+MySQL → Sqoop → HDFS → Hive → Airflow.
+---
 
 ev_charging_pipeline_project/
 ├── dags/
