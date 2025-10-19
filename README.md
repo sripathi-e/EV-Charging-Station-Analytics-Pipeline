@@ -5,6 +5,12 @@ This project builds an **end-to-end Big Data Pipeline** for analyzing electric v
 The pipeline automates ingestion, processing, and analysis of charging data using **MySQL, Sqoop, HDFS, Hive, and Airflow**.
 
 ---
+
+<img width="1366" height="768" alt="Screenshot 2025-09-20 191948" src="https://github.com/user-attachments/assets/e7acbaf4-5173-47c0-a37c-10b005dcd499" />
+<img width="1366" height="768" alt="Screenshot 2025-09-20 193421" src="https://github.com/user-attachments/assets/9296798e-97ae-47c8-9575-70d17510622f" />
+
+
+---
 MySQL → Sqoop → HDFS → Hive → Airflow.
 ---
 
@@ -42,3 +48,17 @@ Contains **1.2 million** synthetic EV charging sessions:
 | charger_type | Fast / Slow / UltraFast |
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
