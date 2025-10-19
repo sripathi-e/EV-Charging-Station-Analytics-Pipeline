@@ -1,0 +1,9 @@
+sqoop import \
+--connect jdbc:mysql://localhost/ev_project \
+--username your_username \
+--password your_password \
+--table ev_charging_sessions \
+--target-dir /ev_project/raw/ev_charging_sessions \
+--as-textfile \
+--fields-terminated-by ',' \
+-m 1
