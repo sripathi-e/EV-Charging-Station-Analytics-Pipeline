@@ -17,6 +17,10 @@ FIELDS TERMINATED BY ','
 LOCATION '/ev_project/raw/ev_charging_sessions';
 
 
+
+-- Ensure Hive uses the correct database
+USE ev_project;
+
 -- 1️⃣ Daily City Summary
 INSERT OVERWRITE TABLE ev_city_daily_summary
 SELECT
