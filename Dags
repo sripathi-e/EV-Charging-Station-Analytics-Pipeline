@@ -1,0 +1,61 @@
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
+
+# Default DAG args
+default_args = {
+    "owner": "airflow",
+    "depends_on_past": False,
+    "email_on_failure": False,
+    "email_on_retry": False,
+    "retries": 1,
+    "retry_delay": timedelta(minutes=5),
+}
+
+# DAG definition
+with DAG(
+    dag_id="ev_charging_pipeline",
+    default_args=default_args,
+    description="EV Charging Sessions Data Pipeline",
+    schedule_interval="*/10 * * * *",  # runs every 10 minutes
+    start_date=datetime(2025, 1, 1),
+    catchup=False,
+    tags=["ev", "bigdata", "mysql", "sqoop", "hive"],
+) as dag:
+
+    # Step 1: Sqoop Import from MySQL to HDFS
+    sqoop_import = BashOperator(
+        task_id="sqoop_import_ev_data",
+        bash_command="""
+        sqoop import \
+        --connect jdbc:mysql://localhost/ev_project \
+        --username your_username \
+        --password your_password \
+        --table ev_charging_sessions \
+        --target-dir /user/ev_project/raw/ev_charging_sessions/ \
+        --delete-target-dir \
+        --as-parquetfile \
+        -m 1
+        """
+    )
+
+    # Step 2: Run Hive Transformation
+    hive_transform = BashOperator(
+        task_id="hive_transform_ev_data",
+        bash_command="""
+        hive -f /home/test/airflow/hive_scripts/transform_ev.sql
+        """
+    )
+
+    # Step 3: Verification step (Python task)
+    def notify_success():
+        print("✅ EV Charging Pipeline completed successfully!")
+
+    notify = PythonOperator(
+        task_id="notify_success",
+        python_callable=notify_success
+    )
+
+    # Task dependencies
+    sqoop_import >> hive_transform >> notify
