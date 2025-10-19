@@ -16,24 +16,25 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LOCATION '/ev_project/raw/ev_charging_sessions';
 
--- Daily City-Level Summary
-CREATE TABLE IF NOT EXISTS ev_project.ev_city_daily_summary AS
-SELECT 
-    city,
-    DATE(start_time) AS date,
-    COUNT(session_id) AS total_sessions,
-    SUM(kWh_consumed) AS total_kWh,
-    SUM(cost) AS total_revenue,
-    ROUND(AVG(kWh_consumed),2) AS avg_kWh_per_session
-FROM ev_project.ev_charging_sessions_raw
+
+-- 1️⃣ Daily City Summary
+INSERT OVERWRITE TABLE ev_city_daily_summary
+SELECT
+city,
+DATE(start_time) AS session_date,
+COUNT(session_id) AS total_sessions,
+SUM(kWh_consumed) AS total_kwh,
+SUM(cost) AS total_revenue,
+ROUND(AVG(kWh_consumed),2) AS avg_kwh_per_session
+FROM ev_charging_sessions_raw
 GROUP BY city, DATE(start_time);
 
--- Charger Utilization by Hour
-CREATE TABLE IF NOT EXISTS ev_project.ev_charger_utilization AS
-SELECT 
-    charger_type,
-    HOUR(start_time) AS hour,
-    COUNT(session_id) AS session_count,
-    SUM(kWh_consumed) AS total_kWh
-FROM ev_project.ev_charging_sessions_raw
+-- 2️⃣ Charger Utilization by Hour
+INSERT OVERWRITE TABLE ev_charger_utilization
+SELECT
+charger_type,
+HOUR(start_time) AS hour_of_day,
+COUNT(session_id) AS session_count,
+SUM(kWh_consumed) AS total_kwh
+FROM ev_charging_sessions_raw
 GROUP BY charger_type, HOUR(start_time);
